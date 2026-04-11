@@ -16,30 +16,28 @@ function App() {
   const hideSidebar = location.pathname === "/login";
 
   return (
-    <div className="flex">
+    <div>
 
-      {/* Sidebar only if logged in AND not login page */}
-      {token && !hideSidebar && <Sidebar />}
+      {/* Sidebar fixed */}
+      {token && !hideSidebar && (
+        <div className="fixed left-0 top-0 h-screen w-64">
+          <Sidebar />
+        </div>
+      )}
 
-      <div className="flex-1">
-
+      {/* Main Content */}
+      <div className={`${token && !hideSidebar ? "ml-64" : ""}`}>
         <Routes>
 
           {/* Login */}
-          <Route
-            path="/login"
-            element={<Login />}
-          />
+          <Route path="/login" element={<Login />} />
 
-           <Route
-            path="/signup"
-            element={<Signup />}
-          />
+          <Route path="/signup" element={<Signup />} />
 
           {/* Dashboard */}
           <Route
             path="/dashboard"
-            element={token ? <Dashboard /> : <Navigate to="/login || /signup" />}
+            element={token ? <Dashboard /> : <Navigate to="/login" />}
           />
 
           {/* Default */}
@@ -47,11 +45,13 @@ function App() {
             path="/"
             element={<Navigate to={token ? "/dashboard" : "/login"} />}
           />
-          <Route path="/leads" element={<LeadListing/>}/>
-          <Route path="/lead-details" element={<LeadDetails/>}/>z``
-        </Routes>
 
+          <Route path="/leads" element={<LeadListing />} />
+          <Route path="/lead-details" element={<LeadDetails />} />
+
+        </Routes>
       </div>
+
     </div>
   );
 }
